@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+
+<h3 class="mb-4 text-center" style="color: #437057;">
+  My Applied Loans
+</h3>
+
+<!-- Search input -->
+<div class="search-wrapper mb-3">
+  <div class="form-group">
+    <label for="searchInput" class="form-label">Search</label>
+    <input id="searchInput" type="text" class="form-control search-input" [formControl]="searchControl"
+      placeholder="Search by Purpose" />
+  </div>
+</div>
+
+<!-- No records message -->
+<div *ngIf="applications.length === 0" class="alert alert-warning">
+  Oops! No records found.
+</div>
+
+<!-- No search results -->
+<div *ngIf="applications.length > 0 && filteredApplications.length === 0" class="alert alert-info">
+  No results found for this search.
+</div>
+
+<!-- Applications table -->
+<div class="table-wrapper">
+  <table *ngIf="filteredApplications.length > 0" class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Sl no</th>
+        <th>Loan Id</th>
+        <th>Loan Type</th>
+        <th>Purpose</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of paginatedApplications; let i = index">
+        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+        <td>{{ app.loanResponseDTO?.loanId }}</td>
+        <td>{{ app.loanResponseDTO?.loanType }}</td>
+        <td>{{ app.farmPurpose }}</td>
+        <td>{{ ['Pending', 'Approved', 'Rejected', 'Cancelled'][app.loanStatus] }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="showDetails(app)">View</button>
+          <button class="btn btn-sm btn-danger" [disabled]="app?.loanStatus === 3" (click)="openCancelModal(app)">
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination controls -->
+<div *ngIf="filteredApplications.length > pageSize" class="d-flex justify-content-center align-items-center mt-3">
+  <button class="btn btn-outline-secondary me-2" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+    Previous
+  </button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="btn btn-outline-secondary ms-2" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+    Next
+  </button>
+</div>
+<br><br>
+
+<!-- Modal for viewing details -->
+<div *ngIf="showModal" class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Application Details</h5>
+        <button type="button" class="btn-close" (click)="showModal = false"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Submission Date:</strong> {{ selectedApp?.submissionDate | date:'mediumDate' }}</p>
+        <p><strong>State:</strong> {{ selectedApp?.state }}</p>
+        <p><strong>District:</strong> {{ selectedApp?.district }}</p>
+        <p><strong>Location:</strong> {{ selectedApp?.farmLocation }}</p>
+        <p><strong>Address:</strong> {{ selectedApp?.farmerAddress }}</p>
+        <p><strong>Size:</strong> {{ selectedApp?.farmSizeInAcres }} acres</p>
+        <p><strong>Document:</strong></p>
+        <img [src]="selectedApp.file" alt="Image Preview" class="img-thumbnail" height="200" width="300" />
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showModal = false">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': showCancelModal }" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title bg-danger">Confirm Cancellation</h5>
+        <button type="button" class="btn-close" (click)="showCancelModal = false" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to cancel this loan application?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="showCancelModal = false">No</button>
+        <button type="button" class="btn btn-danger" (click)="confirmCancel()">Yes, Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

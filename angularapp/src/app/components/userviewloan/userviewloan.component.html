@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+<button (click)="toggleCalculator()" class="toggle-btn" style="color: black;" title="Calculator">
+  <i class="bi bi-calculator" style="font-size: 2rem;"></i>
+</button>
+<div class="loan-container">
+  <h2 class="center">Loan Details</h2>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchKeyword" (input)="applyFilterAndSort()" />
+
+    <select [(ngModel)]="selectedAttribute" (change)="applyFilterAndSort()">
+      <option value="loanType">Loan Type</option>
+      <option value="maximumAmount">Maximum Amount</option>
+      <option value="interestRate">Interest Rate</option>
+      <option value="repaymentTenure">Repayment Tenure</option>
+      <option value="eligibility">Eligibility</option>
+    </select>
+
+    <select [(ngModel)]="sortOrder" (change)="applyFilterAndSort()">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+  <!-- Loan Table -->
+  <table class="loan-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Loan Type</th>
+        <th>Maximum Amount (₹)</th>
+        <th>Interest Rate (%)</th>
+        <th>Repayment Tenure (months)</th>
+        <th>Eligibility</th>
+        <th>Documents</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let loan of paginatedLoans; let i = index">
+        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+        <td>{{ loan.loanType }}</td>
+        <td>{{ loan.maximumAmount }}</td>
+        <td>{{ loan.interestRate }}</td>
+        <td>{{ loan.repaymentTenure }}</td>
+        <td>{{ loan.eligibility }}</td>
+        <td>{{ loan.documentsRequired }}</td>
+        <td>{{ loan.description }}</td>
+        <td *ngIf="!loan.isdelete">
+          <button class="btn btn-delete" (click)="onApply(loan.loanId)">Apply</button>
+        </td>
+        <td *ngIf="loan.isdelete">
+          This loan is not available now.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="filteredLoans.length > pageSize" class="pagination-controls text-center mt-3">
+    <button class="btn btn-outline-secondary me-2 custom-pagination-btn" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-outline-secondary ms-2 custom-pagination-btn" (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages">
+      Next
+    </button>
+  </div>
+</div>
+
+
+<!-- Loan Calculator -->
+<div *ngIf="showCalculator" class="modal-overlay" (click)="closeCalculator()">
+  <div class="loan-calculator modal-content" (click)="$event.stopPropagation()">
+    <h3>Loan EMI Calculator</h3>
+    <form (ngSubmit)="calculateEMI()" #calculatorForm="ngForm">
+      <div class="form-group">
+        <label for="principal">Principal Amount (₹)</label>
+        <input type="number" id="principal" [(ngModel)]="principal" name="principal" required />
+      </div>
+
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="number" id="interestRate" [(ngModel)]="interestRate" name="interestRate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="tenure">Tenure (months)</label>
+        <input type="number" id="tenure" [(ngModel)]="tenure" name="tenure" required />
+      </div>
+
+      <button type="submit">Calculate EMI</button>
+    </form>
+
+    <div *ngIf="emiResult !== null" class="emi-result">
+      <p><strong>Estimated EMI:</strong> ₹{{ emiResult | number:'1.2-2' }}</p>
+      <p><strong>Total Payable Amount:</strong> ₹{{ totalPayable | number:'1.2-2' }}</p>
+    </div>
+  </div>
+</div>
+
+<br><br>
+<app-footer></app-footer>

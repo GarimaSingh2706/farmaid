@@ -1,0 +1,95 @@
+<app-navbar></app-navbar>
+<div class="registration-page">
+  <div class="background-blur"></div>
+
+  <div class="container d-flex flex-column align-items-center min-vh-100 pt-4">
+    
+    <!-- Popup Message Below Navbar -->
+    <div *ngIf="popupMessage" class="popup-message mb-3" [ngClass]="popupType">
+      {{ popupMessage }}
+    </div>
+
+    <div class="form-box p-4 p-md-5">
+      <h2 class="form-heading mb-4 text-center">Registration</h2>
+      <form [formGroup]="regForm" (ngSubmit)="onRegister()">
+
+        <!-- Email -->
+        <div class="form-group">
+          <label>📧 Email</label>
+          <input type="email" class="form-control" formControlName="email">
+          <div class="error" *ngIf="regForm.controls.email?.invalid && (regForm.controls.email?.touched || regForm.controls.email?.dirty)">
+            <div *ngIf="regForm.controls.email?.errors?.required">Email is required</div>
+            <div *ngIf="regForm.controls.email?.errors?.email">Invalid email format</div>
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <label>👤 Username</label>
+          <input type="text" class="form-control" formControlName="username">
+          <div class="error" *ngIf="regForm.controls.username?.invalid && (regForm.controls.username?.touched || regForm.controls.username?.dirty)">
+            Username is required
+          </div>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group">
+          <label>📱 Mobile Number</label>
+          <input type="text" class="form-control" formControlName="mobileNumber">
+          <div class="error" *ngIf="regForm.controls.mobileNumber?.invalid && (regForm.controls.mobileNumber?.touched || regForm.controls.mobileNumber?.dirty)">
+            <div *ngIf="regForm.controls.mobileNumber?.errors?.required">Mobile number is required</div>
+            <div *ngIf="regForm.controls.mobileNumber?.errors?.pattern">Must be a 10-digit number</div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label>🔒 Password</label>
+          <div class="input-wrapper">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              class="form-control"
+              formControlName="password"
+              (input)="validatePassword()"
+            />
+            <span class="toggle-password" (click)="togglePasswordVisibility()">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </span>
+          </div>
+          <div class="error" *ngIf="regForm.controls.password?.invalid && (regForm.controls.password?.touched || regForm.controls.password?.dirty)">
+            <div *ngIf="regForm.controls.password?.errors?.required">Password is required</div>
+            <div *ngIf="regForm.controls.password?.errors?.pattern">Password must meet complexity requirements</div>
+          </div>
+          <ul class="password-criteria mt-2" *ngIf="regForm.controls.password?.touched || regForm.controls.password?.dirty">
+            <li *ngIf="!passwordCriteria.uppercase">Uppercase letter</li>
+            <li *ngIf="!passwordCriteria.lowercase">Lowercase letter</li>
+            <li *ngIf="!passwordCriteria.number">Number</li>
+            <li *ngIf="!passwordCriteria.special">Special character</li>
+            <li *ngIf="!passwordCriteria.length">Minimum 8 characters</li>
+          </ul>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label>🔒 Confirm Password</label>
+          <div class="input-wrapper">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              class="form-control"
+              formControlName="confirmPassword"
+            />
+            <span class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+              {{ showConfirmPassword ? '🙈' : '👁️' }}
+            </span>
+          </div>
+          <div class="error" *ngIf="regForm.controls.confirmPassword?.invalid && (regForm.controls.confirmPassword?.touched || regForm.controls.confirmPassword?.dirty)">
+            <div *ngIf="regForm.controls.confirmPassword?.errors?.required">Confirm password is required</div>
+            <div *ngIf="regForm.controls.confirmPassword?.errors?.mismatch">Passwords do not match</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block mt-4">Register</button>
+      </form>
+    </div>
+  </div>
+</div>

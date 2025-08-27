@@ -1,0 +1,123 @@
+/* Container Styling */
+.gradient{
+  background: linear-gradient(to right, #e8f5e9, #fffde7);
+}
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 16px;
+  background: linear-gradient(to bottom right, #f0fdf4, #ffffff);
+  background: linear-gradient(to right, #e8f5e9, #fffde7);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Headline */
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00695c;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Label Styling */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input and Select Styling */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #00695c;
+  outline: none;
+}
+
+/* Error Message Styling */
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #00695c;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #004d40;
+}
+
+/* Success Modal Styling */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 105, 92, 0.3);
+}
+
+.modal-header {
+  background-color: #00695c;
+  color: white;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+.modal-body {
+  font-size: 16px;
+  color: #333;
+}
+
+.modal-footer .btn-success {
+  background-color: #00695c;
+  border: none;
+}
+
+.modal-footer .btn-success:hover {
+  background-color: #004d40;
+}
+
+/* Remove backdrop darkness */
+.modal-backdrop {
+  background-color: transparent !important;
+
+}
+.small-modal {
+  max-width: 320px;
+  margin: auto;
+}
+
+.success-msg {
+  font-size: 16px;
+  font-weight: 500;
+  color: #2F5249;
+}

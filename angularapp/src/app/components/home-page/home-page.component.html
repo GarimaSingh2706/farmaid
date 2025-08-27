@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+<!-- Quote Carousel -->
+<div class="homepage-wrapper">
+  
+  <main class="homepage-main hero-section">
+    <div id="quoteCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" style="background: transparent;" >
+      <div class="carousel-inner text-center">
+        <div class="carousel-item active">
+          <blockquote class="blockquote">
+            <p class="mb-2">"Agriculture is the most healthful, most useful and most noble employment of man."</p>
+            <footer class="blockquote-footer">George Washington</footer>
+          </blockquote>
+        </div>
+        <div class="carousel-item">
+          <blockquote class="blockquote">
+            <p class="mb-2">"Agriculture is the ancient, essential and the foremost important occupation in the world."</p>
+            <footer class="blockquote-footer">Mahatma Gandhi</footer>
+          </blockquote>
+        </div>
+        <div class="carousel-item">
+          <blockquote class="blockquote">
+            <p class="mb-2">"Farming is a profession of hope."</p>
+            <footer class="blockquote-footer">Brett Brian</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+    <!-- Hero Section -->
+    <div class="container text-center hero-content text-light py-5 mt-5">
+      <h1 class="display-4 fw-bold">Welcome to Farm Aid</h1>
+      <p class="lead mt-3">Empowering farmers with tools, resources, and community support.</p>
+      <button class="btn btn-warning btn-lg mt-4" (click)="navigateToExplore()">
+        🌱 Explore Services
+      </button>
+    </div>
+    
+    <!-- Features Section -->
+    <div class="container my-5">
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-tree fs-1 feature-icon"></i>
+          <div class="mt-3 bg-white text-dark rounded p-3 feature-card">
+            <h4>Crop Advisory</h4>
+            <p>Get expert advice on crop planning and soil health.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-truck fs-1 feature-icon"></i>
+          <div class="mt-3 bg-white text-dark rounded p-3 feature-card">
+            <h4>Logistics Support</h4>
+            <p>Connect with transport and storage services easily.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <i class="bi bi-people fs-1 feature-icon"></i>
+          <div class="mt-3 bg-white text-dark rounded p-3 feature-card">
+            <h4>Community</h4>
+            <p>Join a network of farmers and share your journey.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<app-footer></app-footer>

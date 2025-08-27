@@ -1,0 +1,62 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="isSuccessPopupVisible"
+  class="alert alert-success position-absolute top-1 start-50 translate-middle-x mt-5 shadow"
+  style="width: 320px; z-index: 1050;">
+  ✅ Login Successful! Redirecting...
+</div>
+
+<!-- Error Alert -->
+<div *ngIf="isErrorPopupVisible"
+  class="alert alert-danger position-absolute top-1 start-50 translate-middle-x mt-5 shadow"
+  style="width: 320px; z-index: 1050;">
+  ❌ {{ errorMessage }}
+</div>
+
+
+<div class="login-page">
+  <!-- Success Popup -->
+
+
+
+  <div class="login-card">
+    <div class="login-image">
+      <img src="https://www.jenjewell.ca/wp-content/uploads/2024/01/what-qualifies-as-a-farm-in-ontario.jpg"
+        alt="Login Illustration" />
+    </div>
+
+    <div class="login-form-section">
+      <h2 class="login-heading">LOGIN</h2>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" formControlName="email" placeholder="Enter your email" />
+          <div class="error"
+            *ngIf="loginForm.controls.email?.invalid && (loginForm.controls.email?.touched || loginForm.controls.email?.dirty)">
+            <div *ngIf="loginForm.controls.email?.errors?.required">Email is required</div>
+            <div *ngIf="loginForm.controls.email?.errors?.email">Invalid Email Format</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+              placeholder="Enter password" />
+            <span (click)="togglePasswordVisibility()" class="toggle-icon">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </span>
+          </div>
+          <div class="error"
+            *ngIf="loginForm.controls.password?.invalid && (loginForm.controls.password?.touched || loginForm.controls.password?.dirty)">
+            <div *ngIf="loginForm.controls.password?.errors?.required">Password is required</div>
+            <div *ngIf="loginForm.controls.password?.errors?.pattern">Password must be strong</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+<div class="admin-feedback-container">
+  <h1 class="admin-title">All Feedback</h1>
+
+  <div class="admin-search-bar">
+    <input type="text" placeholder="🔍 Search by User ID" [(ngModel)]="searchUserID" (keyup.enter)="applySearch()" />
+    <button (click)="applySearch()">Search</button>
+    <button *ngIf="searchUserID" class="clear-btn" (click)="clearSearch()">Clear</button>
+  </div>
+
+  <div class="feedback-container">
+  <div class="feedback-grid">
+    <div class="feedback-card" *ngFor="let feedback of filteredView; let i = index">
+      <div class="card-header">
+        <div class="avatar">{{ i + 1 }}</div>
+        <div class="meta">
+          <h4>User ID: {{ feedback.userId }}</h4>
+          <p>Date: {{ feedback.date }}</p>
+        </div>
+        <div class="emoji">{{ emojiMap[feedback.rating] }}</div>
+      </div>
+      <div class="card-body">
+        <p class="feedback-text">“{{ feedback.feedbackText }}”</p>
+      </div>
+    </div>
+  
+    <div *ngIf="filteredView.length === 0" class="no-results">
+      No feedback found for "{{ searchUserID }}"
+    </div>
+  </div>
+  </div>
+</div>
+<app-footer></app-footer>

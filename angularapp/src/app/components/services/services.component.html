@@ -1,0 +1,16 @@
+<app-navbar></app-navbar>
+
+<div class="page-wrapper">
+  <main class="page-content">
+    <div class="container">
+      <h2>🛠️ Your Digital Farmhand, 24/7</h2>
+      <div class="card-grid">
+        <div class="service-card" *ngFor="let service of services">
+          <h4>{{ service.icon }} {{ service.title }}</h4>
+          <p>{{ service.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<app-footer></app-footer>

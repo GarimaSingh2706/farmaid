@@ -1,0 +1,138 @@
+<app-navbar></app-navbar>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-header text-center bg-success">
+          <h3 class="mb-0 text-white">🌾 Loan Application Form</h3>
+        </div>
+        <div class="card-body loan-form-body">
+          <!-- Loan Eligibility Info Button -->
+          <div class="text-end mb-3">
+            <button class="info-button" (click)="showEligibilityInfo()"
+              matTooltip="Click to learn how loan eligibility is calculated">
+              ℹ️ Loan Eligibility Info
+            </button>
+          </div>
+          <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+
+
+            <!-- State Selection -->
+            <div class="mb-3">
+              <label class="form-label">State *</label>
+              <select class="form-select" formControlName="state" (change)="onStateChange($event.target.value)">
+                <option value="" disabled selected>Select a state</option>
+                <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+              </select>
+
+            </div>
+
+            <!-- District Selection -->
+            <div class="mb-3" *ngIf="districts.length > 0">
+              <label class="form-label">District *</label>
+              <select class="form-select" formControlName="district">
+                <option value="" disabled selected>Select a district</option>
+                <option *ngFor="let district of districts" [value]="district">{{ district }}</option>
+              </select>
+            </div>
+
+
+            <!-- Farm Location -->
+            <div class="mb-3">
+              <label class="form-label">Farm Location *</label>
+              <input type="text" class="form-control" placeholder="Enter farm location"
+                formControlName="farmLocation" />
+              <div class="error-message"
+                *ngIf="loanForm.controls.farmLocation?.invalid && (loanForm.controls.farmLocation?.touched || loanForm.controls.farmLocation?.dirty)">
+                <div *ngIf="loanForm.controls.farmLocation?.errors?.required">Farm Location is required</div>
+              </div>
+            </div>
+
+            <!-- Farmer Address -->
+            <div class="mb-3">
+              <label class="form-label">Farmer Address *</label>
+              <input type="text" class="form-control" placeholder="Enter your address"
+                formControlName="farmerAddress" />
+              <div class="error-message"
+                *ngIf="loanForm.controls.farmerAddress?.invalid && (loanForm.controls.farmerAddress?.touched || loanForm.controls.farmerAddress?.dirty)">
+                <div *ngIf="loanForm.controls.farmerAddress?.errors?.required">Farmer Address is required</div>
+              </div>
+            </div>
+
+            <!-- Farm Size -->
+            <div class="mb-3">
+              <label class="form-label">Farm Size (in acres) *</label>
+              <input type="number" class="form-control" placeholder="e.g., 5" formControlName="farmSizeInAcres" />
+              <div class="error-message"
+                *ngIf="loanForm.controls.farmSizeInAcres?.invalid && (loanForm.controls.farmSizeInAcres?.touched || loanForm.controls.farmSizeInAcres?.dirty)">
+                <div *ngIf="loanForm.controls.farmSizeInAcres?.errors?.required">Farm Size is required</div>
+                <div *ngIf="loanForm.controls.farmSizeInAcres?.errors?.min">Farm Size must be 1</div>
+              </div>
+            </div>
+            <!-- Farm Purpose -->
+            <div class="mb-3">
+              <label class="form-label">Farm Purpose *</label>
+              <input type="text" class="form-control" placeholder="e.g., Organic Vegetables"
+                formControlName="farmPurpose" />
+              <div class="error-message"
+                *ngIf="loanForm.controls.farmPurpose?.invalid && (loanForm.controls.farmPurpose?.touched || loanForm.controls.farmPurpose?.dirty)">
+                <div *ngIf="loanForm.controls.farmPurpose?.errors?.required">Farm Purpose is required</div>
+              </div>
+            </div>
+            <!-- File Upload -->
+            <div class="mb-3">
+              <label class="form-label">Proof Document (Image Only) *</label>
+              <input type="file" class="form-control" accept="image/*" (change)="onFileChange($event)"
+                formControlName="file" />
+              <div class="error-message"
+                *ngIf="loanForm.controls.file?.invalid && (loanForm.controls.file?.touched || loanForm.controls.file?.dirty)">
+                <div *ngIf="loanForm.controls.file?.errors?.required">File upload is required</div>
+              </div>
+            </div>
+            <!-- Image Preview -->
+            <div class="mb-3 text-center" *ngIf="previewUrl">
+              <p class="fw-bold">Preview:</p>
+              <img [src]="previewUrl" alt="Image Preview" class="img-thumbnail" width="200" />
+            </div>
+            <!-- Buttons -->
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-success">Submit</button>
+  
+              <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button>
+            </div>
+            <div *ngIf="submitted && successMessage && !showPopup" class="text-danger mt-2 text-center">
+              {{ successMessage }}
+            </div>
+            <!-- Success Popup -->
+            <div *ngIf="showPopup" class="modal">
+              <div class="modal-content text-center">
+                <h4 class="text-success">✅ Application Submitted!</h4>
+                <p class="mt-2">{{ successMessage }}</p>
+                <button class="btn btn-primary mt-3" (click)="closePopup()">OK</button>
+              </div>
+            </div>
+          </form>
+          <!-- Eligibility Info Modal -->
+          <div class="modal" *ngIf="showEligibilityModal">
+            <div class="modal-content">
+              <h3>Loan Eligibility Criteria</h3>
+              <ul>
+                <li><strong>Farm Size:</strong>
+                  <ul>
+                    <li>&lt; 2 acres → ₹50,000 (Small Farm)</li>
+                    <li>2–10 acres → ₹1,50,000 (Medium Farm)</li>
+                    <li>&gt; 10 acres → ₹3,00,000 (Large Farm)</li>
+                  </ul>
+                </li>
+                <li><strong>Organic Farming:</strong> + ₹25,000 bonus</li>
+                <li><strong>Priority Locations:</strong> + ₹10,000 bonus for Karnataka, Punjab, Maharashtra</li>
+              </ul>
+              <button class="btn-outline-light info-button" (click)="closeEligibilityInfo()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

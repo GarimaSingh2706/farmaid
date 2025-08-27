@@ -1,0 +1,55 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Background -->
+<app-navbar></app-navbar>
+<div class="background-image"></div>
+
+<div class="feedback-wrapper">
+  <form [formGroup]="feedbackForm" (ngSubmit)="addFeedback()" class="feedback-card">
+    <h2><b>Share Your Thoughts on <span class="highlight">FarmAid</span></b></h2>
+
+    <div class="form-group">
+      <label for="feedback">Your Feedback</label>
+      <textarea id="feedback" formControlName="feedbackText"
+        placeholder="Write your thoughts about the support, the mission, or suggestions..." required></textarea>
+      <div class="error-message"
+        *ngIf="feedbackForm.get('feedbackText')?.touched && feedbackForm.get('feedbackText')?.invalid">
+        Feedback is required.
+      </div>
+      <div class="error-message"
+      *ngIf="feedbackForm.controls.feedbackText.touched && feedbackForm.get('feedbackText')?.errors?.minlength">
+      Feedback must be at least 4 characters long.
+      </div>
+    </div>
+
+    <label>Rate Your Experience</label>
+    <div class="emoji-options">
+      <span *ngFor="let entry of emojis"
+            (click)="feedbackForm.get('rating')?.setValue(entry[0])"
+            [class.selected]="feedbackForm.get('rating')?.value === entry[0]">
+        {{ entry[1] }}
+      </span>
+    </div>
+
+    <button type="submit">🚀 Submit Feedback</button>
+  </form>
+</div>
+
+<div *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <p>✅ Successfully Added!</p>
+    <button (click)="closePopup()">OK</button>
+  </div>
+</div>
+
+
+<div *ngIf="errorPopup" class="popup">
+  <div class="popup-content">
+    <p>{{ popupMessage }}</p>
+    <button (click)="closeErrorPopup()">OK</button>
+  </div>
+</div>
+
+
+<app-footer></app-footer>
+

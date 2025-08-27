@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+
+<!-- <div class="background-container"> -->
+  <div class="feedback-container">
+    <div class="feedback-content">
+      <h1 class="title">My Feedback</h1>
+
+ 
+  <div class="feedback-container">
+    <div class="feedback-grid">
+      <div class="feedback-card" *ngFor="let feedback of view; let i = index">
+        <div class="card-header">
+          <span class="badge">#{{ i + 1 }}</span>
+          <span class="emoji">{{ emojiMap[feedback.rating] }}</span>
+        </div>
+        <div class="card-body">
+          <p class="feedback-text">{{ feedback.feedbackText }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="delete-btn" (click)="openDeletePopup(feedback.feedbackId)">🗑 Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Confirmation Popup -->
+  <div *ngIf="showDeletePopup" class="popup">
+    <div class="popup-content">
+      <p>Are you sure you want to delete this feedback?</p>
+      <div class="popup-buttons">
+        <button class="confirm-btn" (click)="confirmDelete()">Yes, Delete</button>
+        <button class="cancel-btn" (click)="closeDeletePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<app-footer></app-footer>

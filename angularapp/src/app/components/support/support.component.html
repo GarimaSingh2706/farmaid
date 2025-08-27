@@ -1,0 +1,19 @@
+<body>
+    <div class="page-wrapper">
+      <app-navbar></app-navbar>
+  
+      <div class="container contact-container">
+        <h2>🤝 Need a Hand? We’ve Got a Tractor Full!</h2>
+        <form (ngSubmit)="submitForm()" #contactForm="ngForm">
+          <input type="text" name="name" ngModel placeholder="Your Name" required />
+          <input type="email" name="email" ngModel placeholder="Your Email" required />
+          <textarea class="message-box" name="message" ngModel placeholder="Your Message" required></textarea>
+          <button type="submit" [disabled]="!contactForm.valid">Send Message 🚀</button>
+        </form>
+        <p *ngIf="submitted" class="success-msg">✅ Message sent successfully!</p>
+      </div>
+  
+      <app-footer></app-footer>
+    </div>
+  </body>
+  

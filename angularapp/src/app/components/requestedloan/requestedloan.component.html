@@ -1,0 +1,104 @@
+<app-navbar></app-navbar>
+
+<h3 class="mb-4 text-success">Requested Loans</h3>
+
+<!-- Filter Form -->
+<form [formGroup]="filterForm" class="row g-3 mb-4">
+  <div class="col-md-6">
+    <label for="searchText" class="form-label">Search</label>
+    <input id="searchText" type="text" class="form-control" formControlName="searchText"
+      placeholder="Search by Purpose" />
+  </div>
+  <div class="col-md-6">
+    <label for="status" class="form-label">Status</label>
+    <select id="status" class="form-select" formControlName="status">
+      <option value="">All</option>
+      <option value="0">Pending</option>
+      <option value="1">Approved</option>
+      <option value="2">Rejected</option>
+      <option value="3">Cancelled</option>
+    </select>
+  </div>
+</form>
+
+<!-- No records message -->
+<div *ngIf="filteredApplications.length === 0" class="alert alert-warning">
+  Oops! No records found.
+</div>
+
+<!-- Applications Table -->
+<div class="table-wrapper">
+  <table *ngIf="filteredApplications.length > 0" class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>Sl no</th>
+        <th>Submission Date</th>
+        <th>User Name</th>
+        <th>Purpose</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of paginatedApplications; let i = index">
+        <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+        <td>{{ app?.submissionDate | date:'mediumDate' }}</td>
+        <td>{{ app.userResponseDTO?.username }}</td>
+        <td>{{ app.farmPurpose }}</td>
+        <td>{{ getStatusLabel(app.loanStatus) }}</td>
+        <td>
+          <button class="btn btn-sm btn-success me-2" (click)="approve(app)" [disabled]="app.loanStatus !== 0">Approve</button>
+          <button class="btn btn-sm btn-danger me-2" (click)="reject(app)" [disabled]="app.loanStatus !== 0">Reject</button>
+          <button class="btn btn-sm btn-info" (click)="showDetails(app)">Show</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Controls -->
+<div *ngIf="filteredApplications.length > pageSize" class="pagination-controls">
+  <button class="btn btn-outline-secondary me-2" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+    Previous
+  </button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="btn btn-outline-secondary ms-2" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+    Next
+  </button>
+</div>
+
+<!-- Modal for Viewing Details -->
+<div *ngIf="showModal" class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Details</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Submission Date:</strong> {{ selectedApplication?.submissionDate | date:'mediumDate'  }}</p>
+        <p><strong>State:</strong>{{selectedApplication?.state}}</p>
+        <p><strong>District:</strong>{{selectedApplication?.district}}</p>
+        <p><strong>Loan Id:</strong> {{ selectedApplication?.loanResponseDTO?.loanId }}</p>
+        <p><strong>Loan Type:</strong> {{ selectedApplication?.loanResponseDTO?.loanType }}</p>
+        <p><strong>Location:</strong> {{ selectedApplication?.farmLocation }}</p>
+        <p><strong>Address:</strong> {{ selectedApplication?.farmerAddress }}</p>
+        <p><strong>Size:</strong> {{ selectedApplication?.farmSizeInAcres }} acres</p>
+
+        <div *ngIf="selectedApplication?.file">
+          <p><strong>Document Preview:</strong></p>
+          <img [src]="selectedApplication?.file" alt="Loan Document" class="img-thumbnail mb-2" width="300" height="200" /><br />
+          <a [href]="selectedApplication?.file" download="loan-document.jpg" target="_blank"
+            class="btn btn-outline-primary btn-sm">
+            Download Image
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

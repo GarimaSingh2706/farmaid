@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>Update Loan Form</h3>
+    </div>
+    <div class="loan-form-body">
+      <form [formGroup]="editLoanForm" (ngSubmit)="onSubmit()">
+
+        <!-- Loan Type -->
+        <div class="mb-3">
+          <label>Loan Type*</label>
+          <input class="form-control" formControlName="loanType" placeholder="Loan Type" />
+          <div *ngIf="submitted && editLoanForm.controls.loanType.errors?.required" class="error-message">
+            *Loan Type is required
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label>Description*</label>
+          <input class="form-control" formControlName="description" placeholder="Loan Description" />
+          <div *ngIf="submitted && editLoanForm.controls.description.errors?.required" class="error-message">
+            *Description is required
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div class="mb-3">
+          <label>Interest Rate*</label>
+          <input class="form-control" formControlName="interestRate" type="number" placeholder="Interest Rate" />
+          <div *ngIf="submitted && editLoanForm.controls.interestRate.errors?.required" class="error-message">
+            *Interest Rate is required
+          </div>
+          <div *ngIf="submitted && editLoanForm.controls.interestRate.errors?.pattern" class="error">
+            *Interest Rate must be a positive number with max 2 digits
+          </div>
+        </div>
+
+        <!-- Maximum Amount -->
+        <div class="mb-3">
+          <label>Maximum Amount*</label>
+          <input class="form-control" formControlName="maximumAmount" type="number" placeholder="Maximum Amount" />
+          <div *ngIf="submitted && editLoanForm.controls.maximumAmount.errors?.required" class="error-message">
+            *Maximum Amount is required
+          </div>
+          <div *ngIf="submitted && editLoanForm.controls.maximumAmount.errors?.pattern" class="error">
+            *Amount must be a non-negative number
+          </div>
+        </div>
+
+        <!-- Repayment Tenure -->
+        <div class="mb-3">
+          <label>Repayment Tenure*</label>
+          <select class="form-control" formControlName="repaymentTenure">
+            <option value="" disabled>Select Tenure (Months)</option>
+            <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+          </select>
+          <div *ngIf="submitted && editLoanForm.controls.repaymentTenure.errors?.required" class="error-message">
+            *Repayment Tenure is required
+          </div>
+        </div>
+
+        <!-- Eligibility -->
+        <div class="mb-3">
+          <label>Eligibility*</label>
+          <input class="form-control" formControlName="eligibility" placeholder="Eligibility Criteria" />
+          <div *ngIf="submitted && editLoanForm.controls.eligibility.errors?.required" class="error-message">
+            *Eligibility is required
+          </div>
+        </div>
+
+        <!-- Documents Required -->
+        <div class="mb-3">
+          <label>Documents Required*</label>
+          <input class="form-control" formControlName="documentsRequired" placeholder="Documents Required" />
+          <div *ngIf="submitted && editLoanForm.controls.documentsRequired.errors?.required" class="error-message">
+            *Documents Required is required
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success mt-3">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content small-modal">
+      <div class="modal-body text-center">
+        <p class="success-msg">Successfully Added ✅</p>
+        <button class="btn btn-secondary mt-2" data-bs-dismiss="modal" (click)="closeModal()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+

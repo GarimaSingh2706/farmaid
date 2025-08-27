@@ -1,0 +1,101 @@
+<div class="gradient">
+  <app-navbar></app-navbar>
+
+  <div class="container mt-4">
+    <h2>Create New Loan</h2>
+    <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+      <!-- Loan Type -->
+      <div>
+        <label>Loan Type*</label>
+        <input formControlName="loanType" placeholder="Loan Type" />
+        <div *ngIf="submitted && loanForm.controls.loanType.errors?.required" class="error">
+          *Loan Type is required
+        </div>
+      </div>
+      <!-- Description -->
+      <div>
+        <label>Description*</label>
+        <input formControlName="description" placeholder="Loan Description" />
+        <div *ngIf="submitted && loanForm.controls.description.errors?.required" class="error">
+          *Description is required
+        </div>
+      </div>
+
+      <!-- Interest Rate -->
+      <div>
+        <label>Interest Rate*</label>
+        <input formControlName="interestRate" type="number" placeholder="Interest Rate" />
+        <div *ngIf="submitted && loanForm.controls.interestRate.errors?.required" class="error">
+          *Interest Rate is required
+        </div>
+        <div *ngIf="submitted && loanForm.controls.interestRate.errors?.pattern" class="error">
+          *Interest Rate must be a positive number with max 2 digits
+        </div>
+      </div>
+
+      <!-- Maximum Amount -->
+      <div>
+        <label>Maximum Amount*</label>
+        <input formControlName="maximumAmount" type="number" placeholder="Maximum Amount" />
+        <div *ngIf="submitted && loanForm.controls.maximumAmount.errors?.required" class="error">
+          *Maximum Amount is required
+        </div>
+        <div *ngIf="submitted && loanForm.controls.maximumAmount.errors?.pattern" class="error">
+          *Amount must be a non-negative number
+        </div>
+      </div>
+
+      <!-- Repayment Tenure -->
+
+      <div>
+        <label>Repayment Tenure*</label>
+        <select formControlName="repaymentTenure">
+          <option value="" disabled>Select Tenure (Months)</option>
+          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+        <div *ngIf="submitted && loanForm.controls.repaymentTenure.errors?.required" class="error">
+          *Repayment Tenure is required
+        </div>
+      </div>
+
+      <!-- Eligibility -->
+
+      <div>
+        <label>Eligibility*</label>
+        <input formControlName="eligibility" placeholder="Eligibility Criteria" />
+        <div *ngIf="submitted && loanForm.controls.eligibility.errors?.required" class="error">
+          *Eligibility is required
+        </div>
+      </div>
+
+      <!-- Documents Required -->
+
+      <div>
+        <label>Documents Required*</label>
+        <input formControlName="documentsRequired" placeholder="Documents Required" />
+        <div *ngIf="submitted && loanForm.controls.documentsRequired.errors?.required" class="error">
+          *Documents Required is required
+        </div>
+
+
+        <!-- Submit Button -->
+
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content small-modal">
+      <div class="modal-body text-center">
+        <p class="success-msg">Successfully Added ✅</p>
+        <button class="btn btn-secondary mt-2" data-bs-dismiss="modal" (click)="closeModal()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+

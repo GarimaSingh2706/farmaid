@@ -1,0 +1,21 @@
+<div *ngIf="!isLoggedIn">
+  <nav class="navbar navbar-expand-lg shadow-sm" style="background-color: #437057;">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-light" href="#">🌾 FARM AID</a>
+
+      <div class="ms-auto">
+        <a class="btn btn-outline-light me-2" routerLink="/login">Login</a>
+        <a class="btn btn-outline-warning me-2" routerLink="/signup">Register</a>
+        <a class="btn btn-outline-light me-2" routerLink="/view-loans">View Loans</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div *ngIf="isLoggedIn && isUser">
+  <app-usernav></app-usernav>
+</div>
+
+<div *ngIf="isLoggedIn && isAdmin">
+  <app-adminnav></app-adminnav>
+</div>
